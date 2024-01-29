@@ -25,7 +25,7 @@ async function loadGames() {
                     <td>${game.plataforma}</td>
                     <td>${game.lanzamiento}</td>
                     <td>${game.desarrolladora}</td>
-                    <td><button type="button" class="btn btn-outline-warning" style="margin-right: 15px">Editar</button><button type="button" class="btn btn-outline-danger">Eliminar</button></td>
+                    <td><button type="button" class="btn btn-outline-warning" style="margin-right: 15px">Editar</button><button type="button" class="btn btn-outline-danger" onclick="deleteGame()">Eliminar</button></td>
                 </tr>
                 `;
             });
@@ -44,7 +44,7 @@ async function addGame() {
                     genero: document.getElementById('newGender').value,
                     plataforma: document.getElementById('newPlat').value,
                     lanzamiento: document.getElementById('newFecha').value, 
-                    titulo: document.getElementById('newDesa').value 
+                    desarrolladora: document.getElementById('newDesa').value 
             }),
         });
 
@@ -55,6 +55,24 @@ async function addGame() {
         loadGames();
     } catch (error) {
         console.log(`Error al añadir el videojuego: ${error.message}`);
+    }
+}
+
+async function deleteGame(id) {
+    try {
+        const response = await fetch(`http://localhost:3000/juegos/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        alert('Videojuego eliminado correctamente');
+        loadGames();
+
+    } catch (error) {
+        console.log('Error al eliminar el juego');
     }
 }
 

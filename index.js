@@ -70,7 +70,7 @@ app.post("/juegos", (req, res) => {
 
     db.execute(
         'INSERT INTO juegos (titulo, genero, plataforma, lanzamiento, desarrolladora) VALUES (?, ?, ?, ?, ?)',
-        [title, content],
+        [titulo, genero, plataforma,  lanzamiento, desarrolladora],
         (err, results) => {
             if (err) {
                 console.error('Error inserting new game:', err);
@@ -115,15 +115,15 @@ app.delete("/juegos/:id", (req, res) => {
         [req.params.id],
         (err, results) => {
             if (err) {
-                console.error('Error deleting post from database:', err);
+                console.error('Error deleting game from database:', err);
                 return res.status(500).json({ error: 'Internal Server Error' });
             }
 
             if (results.affectedRows === 0) {
-                return res.status(404).json({ error: 'Post not found' });
+                return res.status(404).json({ error: 'Game not found' });
             }
 
-            res.status(201).json({ success: true, message: 'Post deleted successfully' });
+            res.status(201).json({ success: true, message: 'Game deleted successfully' });
         }
     );
 })
